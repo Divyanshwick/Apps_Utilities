@@ -1,0 +1,148 @@
+package com.example.skillsharetestsolution;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.media.Image;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+    private Button btn;
+    private RadioGroup rbGrp;
+    private RadioButton rbBtn1, rbBtn2, rbBtn3;
+    private TextView txtView1, getTxtView2;
+    private EditText edtText1, edtText2, edtText3, edtText4, editText5;
+    private Spinner spinner;
+    private ImageView img1,img2,img3,img4,img5;
+    private ArrayList<String> Cnames;
+    String name, email, description, website,gender;
+    String country = "";
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        initWidget();
+        Cnames=new ArrayList<>();
+        Cnames.add("India");
+        Cnames.add("USA");
+        Cnames.add("Spain");
+        Cnames.add("Rome");
+        ArrayAdapter<String> sAapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_dropdown_item_1line,
+                Cnames
+        );
+        spinner.setAdapter(sAapter);
+        initOnClicklisterners();
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finishRegistration();
+            }
+        });
+    }
+
+        private void initWidget () {
+
+            btn = (Button) findViewById(R.id.btn);
+            spinner = (Spinner) findViewById(R.id.spinner);
+            rbBtn1 = (RadioButton) findViewById(R.id.rbBtn1);
+            rbBtn2 = (RadioButton) findViewById(R.id.rbBtn2);
+            rbBtn3 = (RadioButton) findViewById(R.id.rbBtn3);
+            edtText1=(EditText)findViewById(R.id.edtText1);
+            edtText2=(EditText)findViewById(R.id.edtText2);
+            edtText3=(EditText)findViewById(R.id.edtText3);
+            edtText4=(EditText)findViewById(R.id.edtText4);
+            rbGrp=(RadioGroup)findViewById(R.id.rdGrp);
+            img1=(ImageView)findViewById(R.id.imgView1);
+            img2=(ImageView)findViewById(R.id.imgView2);
+            img3=(ImageView)findViewById(R.id.imgView3);
+            img4=(ImageView)findViewById(R.id.imgView4);
+            img5=(ImageView)findViewById(R.id.imgView5);
+
+    }
+
+        private void finishRegistration() {
+            name = edtText1.getText().toString();
+            email = edtText2.getText().toString();
+            description = edtText3.getText().toString();
+            website = edtText4.getText().toString();
+            gender = "";
+            int checkId = rbGrp.getCheckedRadioButtonId();
+            Cnames = new ArrayList<>();
+            switch (checkId) {
+                case R.id.rbBtn1:
+                    gender = "Male";
+                    break;
+                case R.id.rbBtn2:
+                    gender = "Female";
+                    break;
+                case R.id.rbBtn3:
+                    gender = "Other";
+                    break;
+                default:
+                    break;
+            }
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    country = Cnames.get(position);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                    country = "No Country Selected";
+
+                }
+            });
+            String finalMessage=("Names: "+name+"Email: "+email+"Description: "+description+
+                                 "\nWebsite: "+website);
+            Toast.makeText(this, finalMessage, Toast.LENGTH_LONG ).show();
+
+
+
+        }
+        public void icon1 (View view){
+            Toast.makeText(this, "BACK", Toast.LENGTH_SHORT).show();
+        }
+        public void icon2 (View view){
+            Toast.makeText(this, "SETTINGS", Toast.LENGTH_SHORT).show();
+        }
+        private void initOnClicklisterners(){
+            img3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this,"VOICE", Toast.LENGTH_SHORT).show();
+                }
+            });
+            img4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this,"Bell Icon", Toast.LENGTH_SHORT).show();
+                }
+            });
+            img5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(MainActivity.this,"Cart", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+
+    }
